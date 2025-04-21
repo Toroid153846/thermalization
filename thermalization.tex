@@ -1,0 +1,248 @@
+\documentclass{ltjsarticle}
+
+
+%ソースコード
+\usepackage{listings}
+\lstset{
+  numbers=left,
+  basicstyle=\ttfamily,
+}
+%装飾
+\usepackage{color}
+% 数式
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{comment}
+\usepackage{autobreak}
+\usepackage{mathtools}
+\usepackage{mathcommand}
+\mathtoolsset{showonlyrefs=true}
+% 数式処理
+\usepackage{luacas}
+% 画像
+\usepackage{graphicx}
+\usepackage{here}
+\usepackage{tikz}
+
+\title{孤立量子系における熱平衡化と準熱平衡化}
+\author{Toroid153846}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+  \section{古典系における熱平衡}
+  1.1で熱平衡の概念について記述し、1.2でマクロな状態におけるボルツマンエントロピーを扱う。
+  \subsection{熱平衡の典型性}
+  \subsubsection{系の設定}
+  \begin{itemize}
+    \item $d$次元である体積$V$の領域$\Lambda\subset\mathbb{R}^d$
+    \item 古典的な$N$個の粒子
+    \item 位置$\bm{q}^N=(\bm{q}_1,\bm{q}_2,\dots,\bm{q}_N)\in\Lambda^N$
+    \item 運動量$\bm{p}^N=(\bm{p}_1,\bm{p}_2,\dots,\bm{p}_N)\in\mathbb{R}^{dN}$
+  \end{itemize}
+  \subsubsection{ミクロな状態の記述}
+  \begin{itemize}
+  \item ミクロな状態は相空間$\Lambda^N\times\mathbb{R}^{dN}$上の点$\Gamma=(\bm{q}^N,\bm{p}^N)$
+  \item 系の時間発展は相空間におけるトラジェクトリー$\Gamma_t$ 
+  \item ミクロな状態$\Gamma$における系のハミルトニアンは$H(\Gamma)$
+  \item 系のエネルギー保存は$H(\Gamma_t)=E$
+  \item エネルギー殻は$\Omega_{E,N,\Lambda}:=\{\Gamma\in\Lambda^N\times\mathbb{R}^{dN}: H(\Gamma)\in[E-\Delta E,E]\}$
+  \end{itemize}
+  \subsubsection{マクロな状態の記述}
+  \begin{itemize}
+    \item マクロな状態を指定する変数の組は$\mathcal{M}=\{M_1(\Gamma),M_2(\Gamma),\dots,M_K(\Gamma)\}$
+    \item マクロな状態はマクロな変数$M_i(\Gamma)$が区間$M_i\in((\nu_i-1)\Delta M_i,\nu_i\Delta M_i]$($\nu=(\nu_1,\nu_2,\dots,\nu_K)\in\mathbb{Z}^K$であり、幅$\Delta M_i$は$M_i$の典型的な大きさよりもずっと小さいが、区間に多くのミクロな状態が含まれるほど大きい)にあるミクロな状態の集合
+    \item エネルギー殻$\Omega_{E,N,\Lambda}$はマクロな状態$\{\nu\}$に分割して$\Omega_{E,N,\Lambda}=\sum_{\nu}\Omega_{\nu}$($\Omega_{\nu}:=\{\Gamma=(\bm{q}^N,\bm{p}^N)\in\Lambda^N\times\mathbb{R}^{dN}:M_i(\Gamma)\in((\nu_i-1)\Delta M_i,\nu_i\Delta M_i]\ \textrm{for}\ \textrm{all}\ i=1,2,\dots,K\}$)
+  \end{itemize}
+  \subsubsection{マクロな状態の典型性}
+  マクロな系であるときには、特定のマクロな状態$\nu_{eq}$(熱平衡状態)が存在して、
+  \begin{align}
+    \frac{\abs{\Omega_{\nu_{eq}}}}{\abs{\Omega_{E,N,\Lambda}}}\approx 1
+  \end{align}
+  ($\abs{\Omega}$は相空間における領域$\Omega$の体積)を満たす。\\
+  さらに、
+  \begin{align}
+    1-\frac{\abs{\Omega_{\nu_{eq}}}}{\abs{\Omega_{E,N,\Lambda}}}=e^{-\order{V}}
+    \label{typ2}
+  \end{align}
+  (ほとんどのミクロな状態が$\nu_{eq}$に属している)を満たす。\\
+  \subsubsection{平衡統計力学の妥当性}
+  熱平衡におけるマクロな変数$M_i$は$M_i^{eq}:=M_i^{(\nu_{eq})}$で
+  \begin{align}
+    M_i^{eq}=\frac{1}{\abs{\Omega_{\nu_{eq}}}}\int_{\Omega_{\nu_{eq}}}\dd{\Gamma} M_i(\Gamma)
+    \label{eq:MC}
+  \end{align}
+  典型性(\eqref{typ2}式)により、$\ev{M_i}_{mc}$はミクロカノニカルアンサンブル上の$M_i$の平均として
+  \begin{align}
+    \frac{1}{\abs{\Omega_{\nu_{eq}}}}\int_{\Omega_{\nu_{eq}}}\dd{\Gamma} M_i(\Gamma)\approx \frac{1}{\abs{\Omega_{E,N,\Lambda}}}\int_{\Omega_{E,N,\Lambda}} \dd{\Gamma} M_i(\Gamma)=:\ev{M_i}_{mc}
+  \end{align}
+  したがって、
+  \begin{align}
+    M_i^{eq}\approx\ev{M_i}_{mc}
+  \end{align}
+  が成り立つ。
+  \subsubsection{熱力学の妥当性}
+  $\ev{M_i}_{mc}$は全エネルギー$E$と全粒子数$N$と体積$V$の少しのマクロなパラメータだけによる。(長距離力を考慮しなければ、$\Lambda$の形状について考慮する必要はない)熱平衡における全てのマクロな変数は$(E,V,N)$によって決定され、それはミクロな観点からマクロな系の熱力学的記述の妥当性を保証する。
+  \subsection{ボルツマンエントロピー}
+  \subsubsection{ボルツマンエントロピーについて}
+  熱力学においてある操作により遷移が可能であるかを示すボルツマンエントロピー$S_\nu$($\nu$はマクロな状態)で表す。
+  \subsubsection{系の仮定}
+  \begin{itemize}
+    \item 注目しているマクロな系Aは他のマクロな系Bと相互作用している
+    \item 二つの系はエネルギーと粒子を交換することができる
+    \item それらの間の相互エネルギーは無視できるほど小さい
+    \item 粒子はマクロには同一視するが、ミクロには区別できる
+  \end{itemize}
+  \subsubsection{全系の相空間体積}
+  マクロな状態$\nu=(\nu_A,\nu_B)$(部分空間$X=A,B$についてエネルギー$E_X$、粒子数$N_X$のマクロな状態$\nu_X$)の部分空間の相空間体積を計算する。\\
+  \begin{align}
+    \Omega_{(\nu_A,\nu_B)}=&\frac{N!}{N_A!N_B!}\int_{\Omega_{\nu_A}}\dd{\Gamma_A}1・\int_{\Omega_{\nu_B}}\dd{\Gamma_B}1\\
+    =&N!・\frac{\abs{\Omega^A_{\nu_A}}}{N_A!}・\frac{\abs{\Omega^B_{\nu_B}}}{N_B!}
+    \label{eq:entire_volume}
+  \end{align}
+  ここで、$\Omega^X_{\nu_X}$は$X$のマクロな状態$\nu_X$の部分空間、$\dd{\Gamma_X}$はその体積要素、$N=N_A+N_B$は系全体における総粒子数である。\eqref{eq:entire_volume}式の一行目の因数$N!/(N_A!N_B!)$は最後の系の仮定による。\\
+  \subsubsection{確率の本質的な因数}
+  $P_{(\nu_A,\nu_B)}$は複合系のマクロな状態$(\nu_A,\nu_B)$を取る確率とする。\\
+  等重率の原理を用いると、
+  \begin{align}
+    P_{(\nu_A,\nu_B)}\propto \abs{\Omega_{(\nu_A,\nu_B)}}
+  \end{align}
+  複合系が孤立しているとして$N!$は定数より、
+  \begin{align}
+    P_{(\nu_A,\nu_B)}\propto \frac{\abs{\Omega^A_{\nu_A}}}{N_A!}・\frac{\abs{\Omega^B_{\nu_B}}}{N_B!}
+  \end{align}
+  $\abs{\Omega^X_{\nu_X}}/N_X!$は系$X$のマクロな状態$\nu_X$の統計的重みとして解釈できる。この重さはマクロな状態$\nu_A$の統計的重さが弱く相互作用している部分系$B$のマクロな状態$\nu_B$と独立して(独立な積になって)おり普遍的である。(この因数$N!$はマクロな状態において$N$粒子が区別できないことに起因するため、量子力学において粒子が本質的に区別できないことやギブスのパラドックスは正確には関係がない)
+  \subsubsection{ボルツマンエントロピーの定義}
+  $N$粒子のマクロな状態$\nu$における系のボルツマンエントロピーは
+  \begin{align}
+    S_\nu:=\ln \frac{\abs{\Omega_{\nu}}}{N!} 
+  \end{align}
+  として定義され、ここでこの論文を通してボルツマン定数$k_B=1$とする。
+  \subsubsection{ボルツマンエントロピーの性質}
+  \eqref{eq:entire_volume}式より
+  \begin{align}
+    S_{(\nu_A,\nu_B)}=S_{\nu_A}+S_{\nu_B}
+  \end{align}
+  が成り立ち、ボルツマンエントロピーの相加性を示している。\\
+  熱平衡におけるボルツマンエントロピーは
+  \begin{align}
+    S_{\nu_{eq}}=\ln \frac{\abs{\Omega_{\nu_{eq}}}}{N!}\approx \ln \frac{\abs{\Omega_{E,N,\Lambda}}}{N!}=:S_{mc}(E,N,V)
+  \end{align}
+  により与えられ、$S_{mc}(E,N,V)$はミクロカノニカルエントロピーである。したがって、標準的な平衡統計力学によるミクロカノニカルアンサンブルを用いることにより平衡熱力学のボルツマンエントロピーはほぼ計算できる。\\
+
+  % 以下、直訳\\
+  % ミクロな状態は相空間$\Lambda^N\times\mathbb{R}^{dN}$上の点$\Gamma=(\bm{q}^N,\bm{p}^N)$で表される。\\
+  % 系の時間発展は相空間におけるトラジェクトリー$\Gamma_t$で表される。\\
+  % 系のハミルトニアンを$H(\Gamma)$で表される。\\
+  % 古典的ハミルトニアン力学においては系のエネルギーは保存するので、$H(\Gamma_t)=E$。\\
+  % したがって、相空間はエネルギー殻$\Omega_{E,N,\Lambda}:=\{\Gamma\in\Lambda^N\times\mathbb{R}^{dN}: H(\Gamma)\in[E-\Delta E,E]\}$に制限される。\\
+  % マクロな変数の組を、関心のあるマクロな量であり系のマクロな状態を指定する$\mathcal{M}=\{M_1(\Gamma),M_2(\Gamma),\dots,M_K(\Gamma)\}$と定める。\\
+  % マクロな変数の自然な選択はハミルトニアンや全粒子数や全運動量や全磁化などの全系の示量変数\\
+  % 系に含まれるマクロな部分系の示量変数が指定されるかもしれないが、それは適切なマクロな変数である。\\
+
+  % 系のマクロな状態はマクロな変数の値によってグループ分けされたミクロな状態の集合である。\\
+  % マクロな変数を整数$\nu_i$と幅$\Delta M_i$によって記述される小さな区間$M_i\in((\nu_i-1)\Delta M_i,\nu_i\Delta M_i]$に分け、それは典型的な$M_i$の大きさよりもずっと小さいが、それぞれの間隔に多くのミクロな状態が含まれるのに十分なほど大きい。\\
+  % $\nu=(\nu_1,\nu_2,\dots,\nu_K)$と記述される$\nu_i$の集合は$\Delta M_i$の精度に含まれるマクロな変数の値を決め、それぞれのマクロな状態は$\nu$によってラベル付けされる。\\
+  % エネルギー殻$\Omega_{E,N,\Lambda}$はマクロな状態$\{\nu\}$ごとに
+  % \begin{align}
+  %   \Omega_{E,N,\Lambda}=\sum_{\nu}\Omega_{\nu}
+  % \end{align}
+  % ($\sum$は集合の非交差和)として分解され、
+  % \begin{align}
+  %   \Omega_{\nu}:=\{\Gamma=(\bm{q}^N,\bm{p}^N)\in\Lambda^N\times\mathbb{R}^{dN}:M_i(\Gamma)\in((\nu_i-1)\Delta M_i,\nu_i\Delta M_i]\ \textrm{for}\ \textrm{all}\ i=1,2,\dots,K\}
+  % \end{align}
+  % として定義される。\\
+  % マクロな状態に対応した部分空間を$\Omega_\nu$と呼ぶ。\\
+  % 二つのミクロな状態$\Gamma_1,\Gamma_2$が同じマクロな状態に属しているとしたら、それらは同じマクロな状態にあると言う。\\
+  % 系がマクロな状態$\nu=(\nu_1,\nu_2,\dots,\nu_K)$にある時、マクロな変数$M_i(\Gamma)$の値はほぼ$M_i^{(\nu)}:=\nu_i\Delta M_i$と同じである。\\
+  % 系がマクロであるとき、
+  % \begin{align}
+  %   \frac{\abs{\Omega_{\nu_{eq}}}}{\abs{\Omega_{E,N,\Lambda}}}\approx 1 
+  %   \label{eq:typ1}
+  % \end{align}
+  % を満たす特定のマクロな状態$\nu_{eq}$が存在することが広く知られており、多くの場合でみられる。ここで、$\abs{\Omega}$は領域$\Omega\subset \Lambda^N\times\mathbb{R}^{dN}$の相空間における体積である。\\
+  % さらに、圧倒的大多数のミクロな状態が$\nu_{eq}$に属しているということを意味する
+  % \begin{align}
+  %   1-\frac{\abs{\Omega_{\nu_{eq}}}}{\abs{\Omega_{E,N,\Lambda}}}=e^{-\order{V}}
+  %   \label{eq:typ2}
+  % \end{align}
+  % が知られている。
+  % このマクロな状態$\nu_{eq}$は熱平衡に対応する。\\
+  % 上の式はエネルギー殻において圧倒的大多数のミクロな状態が共有している共通の性質により特徴づけられる熱平衡、つまり典型的な熱平衡を表現している。\\
+  % \begin{center}
+  %   \begin{tikzpicture}
+    
+  %       % 大きな楕円
+  %       \draw[thick] (0,0) ellipse (4cm and 2cm);
+        
+  %       % 中央の矩形とラベル
+  %       \filldraw[gray] (-0.5,-0.2) rectangle (0.5,0.2);
+  %       \node at (0,0.6) {\huge $\Omega_{\nu_{\text{eq}}}$};
+        
+  %       % 左上の矩形とラベル
+  %       \filldraw[left color=black, right color=white] (-3,1.5) rectangle (-2,2);
+  %       \node at (-2.5,2.3) {$\Omega_{\nu_1}$};
+  %       \draw (-2.5,1.9) -- (-1.5,1);
+    
+  %       % 左下の矩形とラベル
+  %       \filldraw[left color=black, right color=white] (-3,-2) rectangle (-2,-1.5);
+  %       \node at (-2.5,-2.3) {$\Omega_{\nu_2}$};
+  %       \draw (-2.5,-1.6) -- (-1.5,-1);
+    
+  %       % 右下の矩形とラベル
+  %       \filldraw[inner color=white, outer color=black] (2,-2) rectangle (3,-1.5);
+  %       \node at (2.5,-2.3) {$\Omega_{\nu_3}$};
+  %       \draw (2.5,-1.6) -- (1.5,-1);
+    
+  %       % 右上のラベル
+  %       \node at (3,1.5) {$\Omega_{E,N,\Lambda}$};
+  %       \draw (2.5,1.2) -- (1.5,1);
+    
+  %   \end{tikzpicture}
+  % \end{center}    
+  % 特に、上の式のような特徴を熱力学の典型性と呼ぶ。\\
+  % ミクロな状態$\Gamma$が平衡な部分空間$\Omega_{\nu_{eq}}$に属していれば、$\Gamma$における系は熱平衡にあるといわれる。\\
+  % 熱力学の典型性は平衡統計力学がなぜ非常にうまくいくかを説明する。\\
+  % 熱平衡におけるマクロな変数$M_i$は$M_i^{eq}:=M_i^{(\nu_{eq})}$で与えられ、それは平衡部分空間上での$M_i(\Gamma)$の平均として表され、つまり、
+  % \begin{align}
+  %   M_i^{eq}=\frac{1}{\abs{\Omega_{\nu_{eq}}}}\int_{\Omega_{\nu_{eq}}}\dd{\Gamma} M_i(\Gamma)
+  %   \label{eq:MC}
+  % \end{align}
+  % ここで、$\dd{\Gamma}=\dd{\bm{q}}^N\dd{\bm{p}}^N=\dd{\bm{q}_1}\dd{\bm{q}_2}\dots\dd{\bm{q}_N}\dd{\bm{p}_1}\dd{\bm{p}_2}\dots\dd{\bm{p}_N}$であり、平衡部分空間$\Omega_{\nu_{eq}}$上で積分をしている。\\
+  % \eqref{eq:typ1}式もしくは\eqref{eq:typ2}式により、この\eqref{eq:MC}式の平均はエネルギー殻全体
+  % \begin{align}
+  %   \frac{1}{\abs{\Omega_{\nu_{eq}}}}\int_{\Omega_{\nu_{eq}}}\dd{\Gamma} M_i(\Gamma)\approx \frac{1}{\abs{\Omega_{E,N,\Lambda}}}\int_{\Omega_{E,N,\Lambda}} \dd{\Gamma} M_i(\Gamma)=:\ev{M_i}_{mc}
+  % \end{align}
+  % ここで、$\ev{M_i}_{mc}$はミクロカノニカルアンサンブル上の$M_i$の平均である。したがって、
+  % \begin{align}
+  %   M_i^{eq}\approx\ev{M_i}_{mc}
+  % \end{align}
+  % が求まる。
+  % 平衡のマクロな変数の値はミクロカノニカルアンサンブルを用いて計算される。これは平衡統計力学の基礎である。\\
+  % $\ev{M_i}_{mc}$は全エネルギー$E$と全粒子数$N$と体積$V$のような少しのマクロなパラメータだけによることに注意する。(長距離力を考慮しなければ、$\Lambda$の形状について考慮する必要はない)熱平衡における全てのマクロな変数は$(E,V,N)$によって決定され、それはミクロな観点からマクロな系の熱力学的記述の妥当性を保証する。
+
+  % \subsection{ボルツマンエントロピー}
+  %   次のようにボルツマンエントロピー$S_\nu$をそれらのマクロな状態$\nu$に対応付けることができる。熱力学におけるエントロピーは熱力学的操作により遷移が可能であるかどうかを定量的に特徴づける。熱力学的操作において、注目しているマクロな系Aはおそらく他のマクロな系Bと相互作用しており、さらには系Aのエントロピーを定義するためには二つのマクロな系AとBにより構成された複合系について議論しなければならない。\\
+  %   二つの系はエネルギーと粒子を交換することができるが、それらの間の相互エネルギーは無視できるほど小さいと仮定する。マクロな状態$\nu=(\nu_A,\nu_B)$の部分空間の相空間体積を計算しよう。それは、それぞれの部分空間$X=A,B$が全体のエネルギー$E_X$、全体の粒子数$N_X$であるようなマクロな状態$\nu_X$にある。粒子はマクロには同一視するが、ミクロには区別できると仮定する。次に、$\Omega_{(\nu_A,\nu_B)}$は下のように
+  %   \begin{align}
+  %     \Omega_{(\nu_A,\nu_B)}=&\frac{N!}{N_A!N_B!}\int_{\Omega_{\nu_A}}\dd{\Gamma_A}1・\int_{\Omega_{\nu_B}}\dd{\Gamma_B}1\\
+  %     =&N!・\frac{\abs{\Omega^A_{\nu_A}}}{N_A!}・\frac{\abs{\Omega^B_{\nu_B}}}{N_B!},
+  %     \label{eq:entire_volume}
+  %   \end{align}
+  %   ここで、$\Omega^X_{\nu_X}$は$X$のマクロな状態$\nu_X$の部分空間であり、$\dd{\Gamma_X}$はその体積要素であり、$N=N_A+N_B$は系全体における総粒子数である。\eqref{eq:entire_volume}式の一行目の因数$N!/(N_A!N_B!)$は部分空間$A$と$B$へのN粒子の分割する通り数を与える。この因数はマクロなレベルでN粒子が区別できないことにより必要不可欠である。\\
+  % 等重率の原理を用いると、$\abs{\Omega_{(\nu_A,\nu_B)}}$の値は複合系のマクロな状態$(\nu_A,\nu_B)$を取る確率に比例する。複合系が孤立しているとして\eqref{eq:entire_volume}式の$N!$は定数である。この確率は本質的には$\abs{\Omega^A_{\nu_A}}/N_A!・\abs{\Omega^B_{\nu_B}}/N_B!$に比例する。$\abs{\Omega^X_{\nu_X}}/N_X!$は系$X$のマクロな状態$\nu_X$の統計的重みとして解釈できる。この重さはマクロな状態$\nu_A$の統計的重さが弱く相互作用している部分系$B$のマクロな状態$\nu_B$と独立しているという意味で普遍的である。これは量$\abs{\Omega^X_{\nu_X}}/N_X!$の根本的重要性を示している。実際、$N$粒子のマクロな状態$\nu$における系のボルツマンエントロピーは\\
+  % \begin{align}
+  %   S_\nu:=\ln \frac{\abs{\Omega_{\nu}}}{N!} 
+  % \end{align}
+  % として定義され、ここでこの論文を通してボルツマン定数$k_B=1$とする。\eqref{eq:entire_volume}式より
+  % \begin{align}
+  %   S_{(\nu_A,\nu_B)}=S_{\nu_A}+S_{\nu_B}
+  % \end{align}
+  % が成り立ち、ボルツマンエントロピーの相加性を示している。
+  % \\
+  
+
+\end{document}
